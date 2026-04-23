@@ -1,0 +1,12 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #081221; /* Deepest marine blue */
+  color: #E2E8F0; /* Soft readable white */
+  font-family: 'system-ui', '-apple-system', 'sans-serif';
+}
+
+* {
+  box-sizing: border-box;
+}
