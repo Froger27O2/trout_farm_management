@@ -31,7 +31,6 @@ export default function Register() {
         <input className="auth-input" type="email" name="email" placeholder="Email Address" required onChange={handleChange} />
         <input className="auth-input" type="password" name="password" placeholder="Password" required onChange={handleChange} />
         <input className="auth-input" type="tel" name="phone" placeholder="Phone Number" onChange={handleChange} />
-        <input className="auth-input" type="text" name="address" placeholder="Shipping Address" onChange={handleChange} />
         <button className="auth-button" type="submit">Register</button>
       </form>
       
