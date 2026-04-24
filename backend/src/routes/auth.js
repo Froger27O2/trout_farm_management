@@ -7,7 +7,8 @@ const router = express.Router();
 
 // 1. PUBLIC REGISTRATION (Forces Client Role)
 router.post('/register', async (req, res) => {
-    const { fullName, email, password, phone, address } = req.body;
+    // Removed 'address' from destructuring
+    const { fullName, email, password, phone } = req.body;
 
     try {
         // Check if user already exists
@@ -20,16 +21,17 @@ router.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Insert new user (Hardcoded role_id = 3 for Client)
+        // Insert new user
+        // Removed 'address' column and the $5 placeholder
         const newUser = await pool.query(
-            `INSERT INTO users (role_id, full_name, email, password_hash, phone_number, address) 
-             VALUES (3, $1, $2, $3, $4, $5) RETURNING id, full_name, email`,
-            [fullName, email, hashedPassword, phone, address]
+            `INSERT INTO users (role_id, full_name, email, password_hash, phone_number) 
+             VALUES (3, $1, $2, $3, $4) RETURNING id, full_name, email`,
+            [fullName, email, hashedPassword, phone]
         );
 
         res.status(201).json({ message: "Registration successful!", user: newUser.rows[0] });
     } catch (err) {
-        console.error(err.message);
+        console.error('Registration Error:', err.message);
         res.status(500).json({ error: "Server error during registration." });
     }
 });
@@ -67,7 +69,7 @@ router.post('/login', async (req, res) => {
         });
 
     } catch (err) {
-        console.error(err.message);
+        console.error('Login Error:', err.message);
         res.status(500).json({ error: "Server error during login." });
     }
 });
